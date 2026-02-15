@@ -7,6 +7,11 @@ This example demonstrates production-ready WSS functionality with:
 - Secure WebSocket connections (WSS)
 - Real-world certificate management
 - Browser-compatible WSS connections
+
+Usage:
+    python examples/websocket/wss_demo.py
+    python examples/websocket/wss_demo.py -p <port>
+    python examples/websocket/wss_demo.py -d <listener_multiaddr>
 """
 
 import argparse
@@ -203,7 +208,7 @@ async def run_server(port: int):
             logger.info("🔐 Security: TLS with self-signed certificate")
             logger.info("")
             logger.info("📋 To test the connection, run this in another terminal:")
-            logger.info(f"   python wss_demo.py -d {client_addr}")
+            logger.info(f"   python examples/websocket/wss_demo.py -d {client_addr}")
             logger.info("")
             logger.info("⏳ Waiting for incoming WSS connections...")
             logger.info("─" * 50)

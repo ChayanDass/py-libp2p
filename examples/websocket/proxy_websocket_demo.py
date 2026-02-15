@@ -7,6 +7,11 @@ This example demonstrates WebSocket transport with SOCKS proxy support:
 - Proxy authentication
 - Connection through corporate firewalls
 - Production-ready proxy support
+
+Usage:
+    python examples/websocket/proxy_websocket_demo.py
+    python examples/websocket/proxy_websocket_demo.py -c <server_multiaddr>
+    python examples/websocket/proxy_websocket_demo.py -c <server_multiaddr> --proxy socks5://127.0.0.1:1080
 """
 
 import argparse
@@ -124,7 +129,8 @@ async def run_server(port: int):
         logger.info("")
         logger.info("📋 To test with proxy, run:")
         logger.info(
-            f"   python proxy_websocket_demo.py -c {client_addr} --proxy socks5://127.0.0.1:1080"
+            f"   python examples/websocket/proxy_websocket_demo.py -c {client_addr} "
+            "--proxy socks5://127.0.0.1:1080"
         )
         logger.info("")
         logger.info("⏳ Waiting for connections...")

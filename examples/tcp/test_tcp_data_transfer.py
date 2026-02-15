@@ -4,6 +4,10 @@ TCP P2P Data Transfer Test
 
 This test proves that TCP peer-to-peer data transfer works correctly in libp2p.
 This serves as a baseline to compare with WebSocket tests.
+
+Usage:
+    python examples/tcp/test_tcp_data_transfer.py
+    pytest examples/tcp/test_tcp_data_transfer.py -v
 """
 
 import pytest
@@ -18,6 +22,13 @@ from libp2p.security.insecure.transport import PLAINTEXT_PROTOCOL_ID, InsecureTr
 
 # Test protocol for data exchange
 TCP_DATA_PROTOCOL = TProtocol("/test/tcp-data-exchange/1.0.0")
+
+
+def _trio_mark(f):
+    """Apply @pytest.mark.trio when pytest is available; no-op otherwise."""
+    if pytest is not None:
+        return pytest.mark.trio(f)
+    return f
 
 
 async def create_tcp_host_pair():
@@ -53,7 +64,7 @@ async def create_tcp_host_pair():
     return host_a, host_b
 
 
-@pytest.mark.trio
+@_trio_mark
 async def test_tcp_basic_connection():
     """Test basic TCP connection establishment."""
     host_a, host_b = await create_tcp_host_pair()
@@ -103,7 +114,7 @@ async def test_tcp_basic_connection():
         print("✅ TCP basic connection test successful!")
 
 
-@pytest.mark.trio
+@_trio_mark
 async def test_tcp_data_transfer():
     """Test TCP peer-to-peer data transfer."""
     host_a, host_b = await create_tcp_host_pair()
@@ -183,7 +194,7 @@ async def test_tcp_data_transfer():
         print(f"   Echoed:    {echoed_data}")
 
 
-@pytest.mark.trio
+@_trio_mark
 async def test_tcp_large_data_transfer():
     """Test TCP with larger data payloads."""
     host_a, host_b = await create_tcp_host_pair()
@@ -286,7 +297,7 @@ async def test_tcp_large_data_transfer():
         print(f"   Match:     {received_data == test_data}")
 
 
-@pytest.mark.trio
+@_trio_mark
 async def test_tcp_bidirectional_transfer():
     """Test bidirectional data transfer over TCP."""
     host_a, host_b = await create_tcp_host_pair()
